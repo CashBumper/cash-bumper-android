@@ -7,7 +7,7 @@
 	 * POST /bump?id=43765643&giver_token=8693468
 
  * Give money:
- 	 * POST	/create_giver_session?max_amount=4333&maximal_range=5000&SEPA
+ 	 * POST	/create_giver_session?max_amount=4333&maximal_range=5000&sepa=xxxxx
  	 	=> id
  	 * GET	/find_requesters_around?lat=43.90&lng=43.09
  	 	=> list of requesters (id, distance, lat, lng)
