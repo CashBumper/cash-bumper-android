@@ -1,5 +1,7 @@
 package cashbumper.hackathon.burda.com.cashbumper.Fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,9 +14,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.GroundOverlay;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -99,7 +105,6 @@ public class MapFragment extends Fragment implements com.google.android.gms.maps
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.setMyLocationEnabled(true);
         SmartLocation.with(getActivity()).location()
-                .oneFix()
                 .start(new OnLocationUpdatedListener() {
                     @Override
                     public void onLocationUpdated(Location location) {
@@ -110,10 +115,12 @@ public class MapFragment extends Fragment implements com.google.android.gms.maps
                 });
     }
 
-    private ArrayList<Location> generateRandomsPoints(){
+    private ArrayList<GroundOverlay> generateRandomsPoints(){
         LatLngBounds bounds = map.getProjection().getVisibleRegion().latLngBounds;
         LatLng up = bounds.northeast;
         LatLng down = bounds.southwest;
+
+        ArrayList<GroundOverlay> markers = new ArrayList<>();
 
         for (int i =0 ; i<5; i++){
             double start = down.latitude;
@@ -124,9 +131,12 @@ public class MapFragment extends Fragment implements com.google.android.gms.maps
             end = up.longitude;
             double random1 = new Random().nextDouble();
             double lng = start + (random1 * (end - start));
-            map.addMarker(new MarkerOptions()
-                    .position(new LatLng(lat, lng)));
+            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bubble);
+            Bitmap b2 = Bitmap.createScaledBitmap(b, b.getWidth() / 4, b.getHeight() / 4, false);
+            GroundOverlay g = map.addGroundOverlay(new GroundOverlayOptions().image(BitmapDescriptorFactory.fromBitmap(b2)).position(new LatLng(lat,lng), 300f, 300f));
+            markers.add(g);
         }
-        return null;
+
+        return markers;
     }
 }

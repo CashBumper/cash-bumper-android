@@ -2,6 +2,7 @@ package cashbumper.hackathon.burda.com.cashbumper;
 
 import android.os.Bundle;
 
+import cashbumper.hackathon.burda.com.cashbumper.Fragments.GiveOrRequestFragment;
 import cashbumper.hackathon.burda.com.cashbumper.Fragments.MapFragment;
 
 /**
@@ -13,7 +14,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new MapFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new GiveOrRequestFragment()).commit();
     }
 
 
