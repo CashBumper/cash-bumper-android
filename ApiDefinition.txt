@@ -1,15 +1,15 @@
 **REST**
  * Request money:
-	 * POST	/create_requester_session?amount=9000&account=TBD
+	 * POST	/create_requester_session?amount=9000&account=TBD&range=5000
 	 	=> requester_id, transaction_id
-	 * GET	/find_givers_around?lat=43.90&lng=43.09&range=5000
+	 * GET	/find_givers_around?requester_id=123123&lat=43.90&lng=43.09
 	 	=> givers : [{id, distance, answer=UNSEEN|SEEN|ACCEPTED|REJECTED }]
 	 * POST /requester_bump?id=43765643&transaction_id=8693468
 
  * Give money:
- 	 * POST	/create_giver_session?max_amount=4333&max_range=5000&sepa=xxxxx
+ 	 * POST	/create_giver_session?amount=4333&range=5000&sepa=xxxxx
  	 	=> id
- 	 * GET	/find_requesters_around?lat=43.90&lng=43.09
+ 	 * GET	/find_requesters_around?giver_id=123123&lat=43.90&lng=43.09
  	 	=> requesters : [{id, distance, lat, long }]
  	 * POST	/saw_request?requester_id=123123
  	 * POST /accept_request?requester_id=123123
