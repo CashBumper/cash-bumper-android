@@ -1,18 +1,25 @@
 **REST**
 
 * POST /bump?requester_id=123123&transaction_id=123123123
-
+	example: /bump?requester_id=12829669-3bc7-4dae-b903-eb248c0938ee&transaction_id=1a57067e-e34d-4f85-9196-3cee16d2cb8d
+	
  * Request money:
 	 * POST	/create_requester_session?amount=9000&account=TBD&range=5000
 	 	=> requester_id, transaction_id
+	 	example: /create_requester_session?card_number=4111111111111111&expiry_month=01&expiry_year=2016&cvc=999&amount=123&range=1000
+	 	
 	 * GET	/find_givers_around?requester_id=123123&lat=43.90&lng=43.09
 	 	=> givers : [{id, distance, answer=UNSEEN|SEEN|ACCEPTED|REJECTED|BUMPED }]
-
+		example: /find_givers_around?requester_id=12829669-3bc7-4dae-b903-eb248c0938ee&lat=1&lng=21
+		
  * Give money:
  	 * POST	/create_giver_session?amount=4333&range=5000&sepa=xxxxx
  	 	=> id
+ 	 	example: /create_giver_session?amount=100&range=1000&sepa=in_ya_face
+ 	 	
  	 * GET	/find_requesters_around?giver_id=123123&lat=43.90&lng=43.09
  	 	=> requesters : [{id, distance, lat, long }]
- 	 * POST	/saw_request?requester_id=123123
+ 	 	example: /find_requesters_around?giver_id=9ce3c93d-5cf6-48f7-a0c1-70fe490d7570&lat=42&lng=24
+ 	 	
  	 * POST /accept_request?giver_id=123123&requester_id=123123
- 	 * POST /reject_request?requester_id=123123
+ 	 	example: /accept_request?requester_id=12829669-3bc7-4dae-b903-eb248c0938ee&giver_id=9ce3c93d-5cf6-48f7-a0c1-70fe490d7570
