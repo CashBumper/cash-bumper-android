@@ -1,7 +1,7 @@
 **REST**
  * Request money:
 	 * POST	/create_requester_session?amount=9000&account=TBD
-	 	=> id
+	 	=> requester_id, transaction_id
 	 * GET	/find_givers_around?lat=43.90&lng=43.09&range=5000
 	 	=> list of givers (id, distance, answer=UNSEEN|SEEN|ACCEPTED|REJECTED)
 	 * POST /requester_bump?id=43765643&transaction_id=8693468
