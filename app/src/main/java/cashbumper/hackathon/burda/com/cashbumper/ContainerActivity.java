@@ -10,15 +10,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
-import android.support.v7.app.ActionBarActivity;
 import android.text.format.Time;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.nio.charset.Charset;
 
+;
 
-public class ContainerActivity extends ActionBarActivity implements NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback{
+
+public class ContainerActivity extends BaseActivity implements NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback{
 
     private NfcAdapter nfcAdapter;
 

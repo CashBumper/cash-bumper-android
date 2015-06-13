@@ -12,12 +12,6 @@ buildscript {
     }
 }
 
-dependencies {
-
-    compile 'com.mcxiaoke.volley:library:1.0.+@aar'
-
-}
-
 allprojects {
     repositories {
         jcenter()
