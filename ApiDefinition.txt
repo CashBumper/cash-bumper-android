@@ -9,7 +9,7 @@
  * Give money:
  	 * POST	/create_giver_session?max_amount=4333&maximal_range=5000&SEPA
  	 	=> id
- 	 * GET	/find_requesters_around?lat=43.90&lng=43.09&range=5000
+ 	 * GET	/find_requesters_around?lat=43.90&lng=43.09
  	 	=> list of requesters (id, distance, lat, lng)
  	 * POST	/saw_requests?id=4389384&seen_requests=123,456,789
  	 * POST /accept_request?id=4389384&request_id=123123
