@@ -11,7 +11,7 @@
  	 	=> id
  	 * GET	/find_requesters_around?lat=43.90&lng=43.09
  	 	=> requesters : [{id, distance, lat, long }]
- 	 * POST	/saw_request?id=4389384&transaction_id=123123
- 	 * POST /accept_request?id=4389384&transaction_id=123123
- 	 * POST /decline_request?id=4389384&transaction_id=123123
+ 	 * POST	/saw_request?id=4389384&requester_id=123123
+ 	 * POST /accept_request?id=4389384&requester_id=123123
+ 	 * POST /decline_request?id=4389384&requester_id=123123
  	 * POST /giver_bump?id=43765643&transaction_id=8693468
