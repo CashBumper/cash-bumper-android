@@ -15,4 +15,4 @@
  	 	=> requesters : [{id, distance, lat, long }]
  	 * POST	/saw_request?requester_id=123123
  	 * POST /accept_request?requester_id=123123
- 	 * POST /decline_request?requester_id=123123
+ 	 * POST /reject_request?requester_id=123123
