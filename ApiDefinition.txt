@@ -4,7 +4,7 @@
 	 	=> id
 	 * GET	/find_givers_around?lat=43.90&lng=43.09&range=5000
 	 	=> list of givers (id, distance, answer=UNSEEN|SEEN|ACCEPTED|REJECTED)
-	 * POST /requester_bump?requester_id=43765643&giver_token=8693468
+	 * POST /requester_bump?id=43765643&token=8693468
 
  * Give money:
  	 * POST	/create_giver_session?max_amount=4333&max_range=5000&sepa=xxxxx
@@ -14,4 +14,4 @@
  	 * POST	/saw_request?id=4389384&request_id=123123
  	 * POST /accept_request?id=4389384&request_id=123123
  	 * POST /decline_request?id=4389384&request_id=123123
- 	 * POST /giver_bump?giver_id=43765643&requester_token=8693468
+ 	 * POST /giver_bump?id=43765643&token=8693468
