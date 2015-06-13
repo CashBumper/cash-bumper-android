@@ -10,8 +10,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
-import cashbumper.hackathon.burda.com.cashbumper.BitmapLruCache;
-
 public class RequestManager {
     private static RequestQueue mRequestQueue;
     private static ImageLoader mImageLoader;
