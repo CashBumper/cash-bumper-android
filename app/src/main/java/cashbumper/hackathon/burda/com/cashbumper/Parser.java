@@ -9,7 +9,7 @@ public class Parser {
 
     public static String getIdFromJSONObject(JSONObject object){
         try{
-            String id = object.getString("id");
+            String id = object.getString("request_id");
             return id;
         }catch (Exception e){
             throw new RuntimeException(e);
