@@ -8,7 +8,7 @@
 	 	=> requester_id, transaction_id
 	 	example: /create_requester_session?card_number=4111111111111111&expiry_month=01&expiry_year=2016&cvc=999&amount=123&range=1000
 	 	
-	 * GET	/find_givers_around?requester_id=123123&lat=43.90&lng=43.09
+	 * GET	/find_givers_around?requester_id=123123&lat=48.1302368&lng=11.6578626
 	 	=> givers : [{id, distance, answer=UNSEEN|SEEN|ACCEPTED|REJECTED|BUMPED }]
 		example: /find_givers_around?requester_id=12829669-3bc7-4dae-b903-eb248c0938ee&lat=1&lng=21
 		
@@ -17,7 +17,7 @@
  	 	=> id
  	 	example: /create_giver_session?amount=100&range=1000&sepa=in_ya_face
  	 	
- 	 * GET	/find_requesters_around?giver_id=123123&lat=43.90&lng=43.09
+ 	 * GET	/find_requesters_around?giver_id=123123&lat=48.1302368&lng=11.6578626
  	 	=> requesters : [{id, distance, lat, long }]
  	 	example: /find_requesters_around?giver_id=9ce3c93d-5cf6-48f7-a0c1-70fe490d7570&lat=42&lng=24
  	 	
