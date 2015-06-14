@@ -71,6 +71,8 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
         // Gets to GoogleMap from the MapView and does initialization stuff
         mapView.getMapAsync(this);
 
+        markerMap = new HashMap<>();
+
         // Updates the location and zoom of the MapView
         return v;
     }
@@ -104,6 +106,7 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
                 @Override
                 public void onInfoWindowClick(Marker marker) {
                     String uuid = markerMap.get(marker.getTitle());
+                    Log.d("MapFragment", uuid);
                     acceptRequest(uuid);
                 }
             });
@@ -133,7 +136,12 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
         BaseActivity b = (BaseActivity) getActivity();
         b.executeRequest(RequestFactory.acceptRequest(new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONObject object) {}
+            public void onResponse(JSONObject object) {
+                Log.d("MapFragment", "object:" + object);
+                tt.cancel();
+                t.cancel();
+                callbacks.startBump();
+            }
         }, requesterId, giverId));
     }
 
@@ -162,6 +170,8 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
             public void onResponse(JSONObject object) {
 
                 Log.d("MapFragment", "object:" + object);
+
+                markerMap.clear();
 
                 map.clear();
 
@@ -206,7 +216,6 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
                     }
 
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
                 }
             }
         };
@@ -225,7 +234,7 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
                 }
             };
         };
-        t.schedule(tt,10000,10000);
+        t.schedule(tt,0, 10000);
     }
 
     private ArrayList<GroundOverlay> generateRandomsPoints() {

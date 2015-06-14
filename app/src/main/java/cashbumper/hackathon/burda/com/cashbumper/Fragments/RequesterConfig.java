@@ -46,7 +46,11 @@ public class RequesterConfig extends BaseFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                amount = Integer.parseInt(s.toString());
+                try {
+                    amount = Integer.parseInt(s.toString());
+                }catch (Exception e){
+                    amount = 0;
+                }
             }
 
             @Override

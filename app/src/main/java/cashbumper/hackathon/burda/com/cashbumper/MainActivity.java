@@ -67,6 +67,7 @@ public class MainActivity extends BaseActivity implements FragmentCallbacks{
 
     @Override
     public void startBump() {
+        Log.d("MainActivity", "StartBump");
         Intent i = new Intent(this, ContainerActivity.class);
         startActivity(i);
     }
