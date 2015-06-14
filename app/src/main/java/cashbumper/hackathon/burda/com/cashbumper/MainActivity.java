@@ -15,58 +15,56 @@ import cashbumper.hackathon.burda.com.cashbumper.Interfaces.FragmentCallbacks;
  */
 public class MainActivity extends BaseActivity implements FragmentCallbacks{
 
-    GiverMoneyFragment GMfragment;
-
+    GiverMoneyFragment GMFragment;
     ProgressBar b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        GMFragment = new GiverMoneyFragment();
         setContentView(R.layout.main_layout);
-        GMfragment = new GiverMoneyFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, GMfragment).commit();
+        startSplashScreen();
     }
 
     public void add(View v){
-        GMfragment.add(v);
+        GMFragment.add(v);
     }
 
     public void delete(View v){
-        GMfragment.delete(v);
+        GMFragment.delete(v);
     }
 
     public void confirm(View v){
-        GMfragment.confirm(v);
+        GMFragment.confirm(v);
     }
 
     @Override
     public void startSplashScreen() {
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new GiveOrRequestFragment()).addToBackStack("grf").commit();
     }
 
     @Override
-    public void startMoney() {
-
+    public void startGiverConfig() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, GMFragment).addToBackStack("gmf").commit();
     }
 
     @Override
-    public void startChoice() {
-
+    public void startRequesterConfig() {
     }
 
-    @Override
-    public void startMap() {
 
+    @Override
+    public void startMap(boolean isRequester) {
+        Bundle b = new Bundle();
+        b.putBoolean("isRequester", isRequester);
+        MapFragment mf = new MapFragment();
+        mf.setArguments(b);
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, mf).addToBackStack("map").commit();
     }
 
     @Override
     public void startBump() {
 
-    }
-
-    @Override
-    public void startList() {
-        Log.d("MainActivity", "List should yet start");
     }
 
 }

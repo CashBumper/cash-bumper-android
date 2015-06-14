@@ -6,9 +6,8 @@ package cashbumper.hackathon.burda.com.cashbumper.Interfaces;
 public interface FragmentCallbacks {
 
     void startSplashScreen();
-    void startMoney();
-    void startChoice();
-    void startMap();
+    void startGiverConfig();
+    void startRequesterConfig();
+    void startMap(boolean isRequester);
     void startBump();
-    void startList();
 }
