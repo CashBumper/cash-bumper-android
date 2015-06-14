@@ -220,6 +220,26 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
             }
         };
 
+        final Response.Listener<JSONObject> acceptedListener = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject object) {
+
+                Log.d("MapFragment", "giver:" + object);
+
+                try {
+                    String id = object.getString("id");
+                    double latitude = object.getDouble("latitude");
+                    double longitude = object.getDouble("longitude");
+                    int amount = object.getInt("amount");
+                    int range = object.getInt("range");
+                    String sepa = object.getString("sepa");
+
+                    Giver giver = new Giver(id, latitude, longitude, amount, range, sepa);
+
+                } catch (Exception e) {}
+            }
+        };
+
         final BaseActivity b = (BaseActivity) getActivity();
 
         t = new Timer();
@@ -228,6 +248,7 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
             public void run() {
                 if (isRequester){
                     b.executeRequest(RequestFactory.findGiversAround(listener, current.getLatitude(), current.getLongitude(), Saver.getInstance().getId()));
+                    b.executeRequest(RequestFactory.getRequesterTransactionGiver(acceptedListener, Saver.getInstance().getId()))
                 }
                 else{
                     b.executeRequest(RequestFactory.findRequestersAround(listener, current.getLatitude(), current.getLongitude(), Saver.getInstance().getId()));
