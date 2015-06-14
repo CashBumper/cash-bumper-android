@@ -104,7 +104,7 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
                 @Override
                 public void onInfoWindowClick(Marker marker) {
                     String uuid = markerMap.get(marker.getTitle());
-                    acceptRequest();
+                    acceptRequest(uuid);
                 }
             });
 
@@ -127,7 +127,14 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
         }
     }
 
-    private void acceptRequest() {
+    private void acceptRequest(String requesterId) {
+        String giverId = Saver.getInstance().getId();
+
+        BaseActivity b = (BaseActivity) getActivity();
+        b.executeRequest(RequestFactory.acceptRequest(new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject object) {}
+        }, requesterId, giverId));
     }
 
     @Override
