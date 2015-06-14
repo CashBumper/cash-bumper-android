@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import cashbumper.hackathon.burda.com.cashbumper.Fragments.GiveOrRequestFragment;
 import cashbumper.hackathon.burda.com.cashbumper.Fragments.GiverMoneyFragment;
 import cashbumper.hackathon.burda.com.cashbumper.Fragments.MapFragment;
+import cashbumper.hackathon.burda.com.cashbumper.Fragments.RequesterConfig;
 import cashbumper.hackathon.burda.com.cashbumper.Interfaces.FragmentCallbacks;
 
 /**
@@ -50,6 +51,7 @@ public class MainActivity extends BaseActivity implements FragmentCallbacks{
 
     @Override
     public void startRequesterConfig() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new RequesterConfig()).addToBackStack("rc").commit();
     }
 
 

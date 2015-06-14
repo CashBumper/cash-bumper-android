@@ -34,6 +34,7 @@ public class GiveOrRequestFragment extends BaseFragment {
                 callbacks.startRequesterConfig();
             }
         });
+
         return v;
     }
 }

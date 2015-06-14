@@ -9,20 +9,15 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
-import cashbumper.hackathon.burda.com.cashbumper.Model.User;
-
 /**
  * Created by laurentmeyer on 13/06/15.
  */
 public class BaseActivity extends FragmentActivity {
     protected FragmentActivity activity;
 
-    static User user;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user = new User();
         RequestManager.init(this);
     }
 

@@ -20,6 +20,7 @@ import java.text.DecimalFormat;
 import cashbumper.hackathon.burda.com.cashbumper.BaseActivity;
 import cashbumper.hackathon.burda.com.cashbumper.R;
 import cashbumper.hackathon.burda.com.cashbumper.Requests.RequestFactory;
+import cashbumper.hackathon.burda.com.cashbumper.Saver;
 
 /**
  * Created by laurentmeyer on 14/06/15.
@@ -94,12 +95,12 @@ public class GiverMoneyFragment extends BaseFragment {
         // TODO Fake account data but we should have the sum and then get the id of the session
         Log.d("GiverMoneyFragment", "In confirm");
         if (sumInt > 0) {
-            ((BaseActivity) getActivity()).executeRequest(RequestFactory.buildGiverSession(new Response.Listener<JSONObject>() {
+            ((BaseActivity) getActivity()).executeRequest(RequestFactory.createGiverSession(new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject object) {
                     try {
-                        String id = object.getString("requester_id");
-                        String requestId = object.getString("transaction_id");
+                        String id = object.getString("id");
+                        Saver.getInstance().setId(id);
 
                         // TODO Submit that to new model classes
                     } catch (JSONException e) {

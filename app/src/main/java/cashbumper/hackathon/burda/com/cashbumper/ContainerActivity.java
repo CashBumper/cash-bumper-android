@@ -39,14 +39,14 @@ public class ContainerActivity extends BaseActivity implements NfcAdapter.Create
         setContentView(R.layout.activity_container);
         mInfoText = (TextView) findViewById(R.id.button);
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        executeRequest(RequestFactory.buildRequesterSession(new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject object) {
-                user.setId(Parser.getIdFromJSONObject(object));
-                Toast.makeText(ContainerActivity.this, user.getId(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        }, "", 12));
+//        executeRequest(RequestFactory.buildRequesterSession(new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject object) {
+//                user.setId(Parser.getIdFromJSONObject(object));
+//                Toast.makeText(ContainerActivity.this, user.getId(),
+//                        Toast.LENGTH_SHORT).show();
+//            }
+//        }, "", 12));
         if (mNfcAdapter == null){
             return;
         }
