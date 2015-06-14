@@ -106,7 +106,7 @@ public class GiverMoneyFragment extends BaseFragment {
                         e.printStackTrace();
                     }
                 }
-            }, sumInt, progressToSend, null));
+            }, sumInt, progressToSend, "4711951501"));
 
             //TODO: move that in the success and start a loading process
             callbacks.startMap(false);
