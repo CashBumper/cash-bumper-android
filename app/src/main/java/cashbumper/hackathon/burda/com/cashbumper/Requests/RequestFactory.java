@@ -16,11 +16,6 @@ public class RequestFactory {
 
     static String serverBaseUrl = "http://172.20.19.51:5000/";
 
-    enum STATES{
-        SEEN, ACCEPTED, REJECTED
-    }
-
-
     public static JsonObjectRequest createRequesterSession(Response.Listener<JSONObject> listener,
             String cardNumber, String expiryMonth, String expiryYear, String cvc, int amount, int range){
         return new BaseRequest(Request.Method.POST,
@@ -77,8 +72,6 @@ public class RequestFactory {
         return new BaseRequest(Request.Method.GET,
                 serverBaseUrl + "bump?requester_id=" + requesterId,listener);
     }
-
-
 
     private static class BaseRequest extends JsonObjectRequest {
         public BaseRequest(int method, String url, Response.Listener<JSONObject> listener) {

@@ -109,7 +109,7 @@ public class GiverMoneyFragment extends BaseFragment {
             }, sumInt, progressToSend, null));
 
             //TODO: move that in the success and start a loading process
-            callbacks.startList();
+            callbacks.startMap(false);
 
         } else {
             Toast.makeText(getActivity(), "Please set an amount to exchange", Toast.LENGTH_SHORT);

@@ -34,6 +34,8 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
     MapView mapView;
     GoogleMap map;
     Location current;
+    boolean isRequester;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.map_layout, container, false);
@@ -41,6 +43,8 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapview);
         mapView.onCreate(savedInstanceState);
+
+        isRequester = getArguments().getBoolean("isRequester");
 
         // Gets to GoogleMap from the MapView and does initialization stuff
         mapView.getMapAsync(this);
@@ -66,7 +70,6 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
         super.onLowMemory();
         mapView.onLowMemory();
     }
-
 
 
     private void centerMapOnMyLocation() {
@@ -111,14 +114,14 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
                 });
     }
 
-    private ArrayList<GroundOverlay> generateRandomsPoints(){
+    private ArrayList<GroundOverlay> generateRandomsPoints() {
         LatLngBounds bounds = map.getProjection().getVisibleRegion().latLngBounds;
         LatLng up = bounds.northeast;
         LatLng down = bounds.southwest;
 
         ArrayList<GroundOverlay> markers = new ArrayList<>();
 
-        for (int i =0 ; i<5; i++){
+        for (int i = 0; i < 5; i++) {
             double start = down.latitude;
             double end = up.latitude;
             double random = new Random().nextDouble();
@@ -129,10 +132,11 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
             double lng = start + (random1 * (end - start));
             Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bubble);
             Bitmap b2 = Bitmap.createScaledBitmap(b, b.getWidth() / 4, b.getHeight() / 4, false);
-            GroundOverlay g = map.addGroundOverlay(new GroundOverlayOptions().image(BitmapDescriptorFactory.fromBitmap(b2)).position(new LatLng(lat,lng), 300f, 300f));
+            GroundOverlay g = map.addGroundOverlay(new GroundOverlayOptions().image(BitmapDescriptorFactory.fromBitmap(b2)).position(new LatLng(lat, lng), 300f, 300f));
             markers.add(g);
         }
 
         return markers;
     }
+
 }
