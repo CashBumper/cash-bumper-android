@@ -28,6 +28,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cashbumper.hackathon.burda.com.cashbumper.BaseActivity;
 import cashbumper.hackathon.burda.com.cashbumper.Model.EnrichedGiver;
@@ -47,6 +49,9 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
     GoogleMap map;
     Location current;
     boolean isRequester;
+
+    Timer t;
+    TimerTask tt;
 
     /**
      * Not to use any extended API
@@ -145,11 +150,13 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
     }
 
     private void launchMarkerRequest(final boolean isRequester) {
-        Response.Listener<JSONObject> listener = new Response.Listener<JSONObject>() {
+        final Response.Listener<JSONObject> listener = new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject object) {
 
                 Log.d("MapFragment", "object:" + object);
+
+                map.clear();
 
                 try {
                     if (isRequester) {
@@ -197,13 +204,21 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
             }
         };
 
-        BaseActivity b = (BaseActivity) getActivity();
-        if (isRequester){
-            b.executeRequest(RequestFactory.findGiversAround(listener, current.getLatitude(), current.getLongitude(), Saver.getInstance().getId()));
-        }
-        else{
-            b.executeRequest(RequestFactory.findRequestersAround(listener, current.getLatitude(), current.getLongitude(), Saver.getInstance().getId()));
-        }
+        final BaseActivity b = (BaseActivity) getActivity();
+
+        t = new Timer();
+        tt = new TimerTask() {
+            @Override
+            public void run() {
+                if (isRequester){
+                    b.executeRequest(RequestFactory.findGiversAround(listener, current.getLatitude(), current.getLongitude(), Saver.getInstance().getId()));
+                }
+                else{
+                    b.executeRequest(RequestFactory.findRequestersAround(listener, current.getLatitude(), current.getLongitude(), Saver.getInstance().getId()));
+                }
+            };
+        };
+        t.schedule(tt,10000,10000);
     }
 
     private ArrayList<GroundOverlay> generateRandomsPoints() {
