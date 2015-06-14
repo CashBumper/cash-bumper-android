@@ -5,11 +5,20 @@
     android:layout_height="match_parent"
     android:padding="16dp" >
 
-    <TextView
-        android:layout_width="fill_parent"
+   <ImageView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:src="@drawable/pending"
+       android:id="@+id/image_bump"/>
+    <TextView android:text="Bump!"
+        android:layout_marginTop="400dp"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:textColor="#777777"
+        android:textSize="40dp"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="Send File"
-        android:id="@+id/button"/>
+        android:id="@+id/bump_text"
+        />
+
 
 </RelativeLayout>

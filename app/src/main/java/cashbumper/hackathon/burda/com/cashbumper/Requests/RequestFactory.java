@@ -1,7 +1,5 @@
 package cashbumper.hackathon.burda.com.cashbumper.Requests;
 
-import android.graphics.Point;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -10,11 +8,9 @@ import org.json.JSONObject;
 
 import cashbumper.hackathon.burda.com.cashbumper.Listeners.ErrorListener;
 
-import java.lang.String;
-
 public class RequestFactory {
 
-    static String serverBaseUrl = "http://172.20.19.51:5000/";
+    static String serverBaseUrl = "http://172.20.19.51:5002/";
 
     public static JsonObjectRequest createRequesterSession(Response.Listener<JSONObject> listener,
             String cardNumber, String expiryMonth, String expiryYear, String cvc, int amount, int range){
@@ -73,9 +69,9 @@ public class RequestFactory {
                 serverBaseUrl + "get_requester_transaction_giver?requester_id=" + requesterId, listener);
     }
 
-    public static JsonObjectRequest bump(Response.Listener<JSONObject> listener, String requesterId) {
-        return new BaseRequest(Request.Method.GET,
-                serverBaseUrl + "bump?requester_id=" + requesterId,listener);
+    public static JsonObjectRequest bump(Response.Listener<JSONObject> listener, String requesterId, String transactionId) {
+        return new BaseRequest(Request.Method.POST,
+                serverBaseUrl + "bump?requester_id=" + requesterId+"&transaction_id="+transactionId,listener);
     }
 
     private static class BaseRequest extends JsonObjectRequest {

@@ -98,6 +98,7 @@ public class GiverMoneyFragment extends BaseFragment {
             ((BaseActivity) getActivity()).executeRequest(RequestFactory.createGiverSession(new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject object) {
+                    Log.d("GiverMoneyFragment", "object:" + object);
                     try {
                         String id = object.getString("id");
                         Saver.getInstance().setId(id);

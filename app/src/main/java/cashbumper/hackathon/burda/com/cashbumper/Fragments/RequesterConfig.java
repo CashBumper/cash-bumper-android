@@ -96,6 +96,7 @@ public class RequesterConfig extends BaseFragment {
                     Response.Listener<JSONObject> listener = new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject object) {
+                            Log.d("RequesterConfig", "object:" + object);
                             try {
                                 Log.d("RequesterConfig", "object:" + object);
                                 String id = object.getString("requester_id");

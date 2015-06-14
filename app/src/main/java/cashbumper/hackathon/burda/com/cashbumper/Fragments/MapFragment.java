@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.android.volley.Response;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,6 +35,7 @@ import java.util.TimerTask;
 import cashbumper.hackathon.burda.com.cashbumper.BaseActivity;
 import cashbumper.hackathon.burda.com.cashbumper.Model.EnrichedGiver;
 import cashbumper.hackathon.burda.com.cashbumper.Model.EnrichedRequester;
+import cashbumper.hackathon.burda.com.cashbumper.Model.Giver;
 import cashbumper.hackathon.burda.com.cashbumper.R;
 import cashbumper.hackathon.burda.com.cashbumper.Requests.RequestFactory;
 import cashbumper.hackathon.burda.com.cashbumper.Saver;
@@ -235,7 +237,18 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
                     String sepa = object.getString("sepa");
 
                     Giver giver = new Giver(id, latitude, longitude, amount, range, sepa);
+                    Button b = (Button) getView().findViewById(R.id.bump_button);
+                    b.setVisibility(View.VISIBLE);
+                    tt.cancel();
+                    t.cancel();
+                    map.clear();
+                    b.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            callbacks.startBump();
+                        }
 
+                    });
                 } catch (Exception e) {}
             }
         };
@@ -248,14 +261,14 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
             public void run() {
                 if (isRequester){
                     b.executeRequest(RequestFactory.findGiversAround(listener, current.getLatitude(), current.getLongitude(), Saver.getInstance().getId()));
-                    b.executeRequest(RequestFactory.getRequesterTransactionGiver(acceptedListener, Saver.getInstance().getId()))
+                    b.executeRequest(RequestFactory.getRequesterTransactionGiver(acceptedListener, Saver.getInstance().getId()));
                 }
                 else{
                     b.executeRequest(RequestFactory.findRequestersAround(listener, current.getLatitude(), current.getLongitude(), Saver.getInstance().getId()));
                 }
             };
         };
-        t.schedule(tt,0, 10000);
+        t.schedule(tt,0, 2000);
     }
 
     private ArrayList<GroundOverlay> generateRandomsPoints() {

@@ -32,4 +32,9 @@ public class Saver {
         return instance;
     }
 
+    public void clear(){
+        id = null;
+        transactionId = null;
+    }
+
 }

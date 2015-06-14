@@ -2,10 +2,12 @@ package cashbumper.hackathon.burda.com.cashbumper;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import cashbumper.hackathon.burda.com.cashbumper.Fragments.BumpFragment;
 import cashbumper.hackathon.burda.com.cashbumper.Fragments.GiveOrRequestFragment;
 import cashbumper.hackathon.burda.com.cashbumper.Fragments.GiverMoneyFragment;
 import cashbumper.hackathon.burda.com.cashbumper.Fragments.MapFragment;
@@ -42,6 +44,7 @@ public class MainActivity extends BaseActivity implements FragmentCallbacks{
 
     @Override
     public void startSplashScreen() {
+        clearBackStack();
         getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new GiveOrRequestFragment()).addToBackStack("grf").commit();
     }
 
@@ -67,9 +70,15 @@ public class MainActivity extends BaseActivity implements FragmentCallbacks{
 
     @Override
     public void startBump() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new BumpFragment()).addToBackStack("bump").commit();
         Log.d("MainActivity", "StartBump");
-        Intent i = new Intent(this, ContainerActivity.class);
-        startActivity(i);
+    }
+
+    private void clearBackStack(){
+        FragmentManager fm = getSupportFragmentManager();
+        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
     }
 
 }
