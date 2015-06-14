@@ -53,9 +53,9 @@ public class RequestFactory {
             double lat, double lng, String giverId) {
         return new BaseRequest(Request.Method.GET,
                 serverBaseUrl + "find_requesters_around?" +
-                        "lat="     + lat    + "&" +
-                        "lng="     + lng    + "&" +
-                        "giverId=" + giverId,
+                        "lat="      + lat    + "&" +
+                        "lng="      + lng    + "&" +
+                        "giver_id=" + giverId,
                 listener);
     }
 
@@ -64,7 +64,7 @@ public class RequestFactory {
         return new BaseRequest(Request.Method.GET,
                 serverBaseUrl + "accept_request?" +
                         "requester_id=" + requesterId + "&" +
-                        "giverId="      + giverId,
+                        "giver_id="     + giverId,
                 listener);
     }
 
