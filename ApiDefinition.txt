@@ -11,7 +11,9 @@
 	 * GET	/find_givers_around?requester_id=123123&lat=48.1302368&lng=11.6578626
 	 	=> givers : [{id, distance, answer=UNSEEN|SEEN|ACCEPTED|REJECTED|BUMPED }]
 		example: /find_givers_around?requester_id=12829669-3bc7-4dae-b903-eb248c0938ee&lat=1&lng=21
-		
+	
+	* GET /is_requester_transaction_accepted?requester_id=123123
+		=> {is_accepted: boolean}
  * Give money:
  	 * POST	/create_giver_session?amount=4333&range=5000&sepa=xxxxx
  	 	=> id
