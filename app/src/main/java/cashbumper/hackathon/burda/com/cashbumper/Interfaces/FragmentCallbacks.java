@@ -10,4 +10,5 @@ public interface FragmentCallbacks {
     void startChoice();
     void startMap();
     void startBump();
+    void startList();
 }

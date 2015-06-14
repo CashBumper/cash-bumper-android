@@ -2,16 +2,20 @@ package cashbumper.hackathon.burda.com.cashbumper.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.DecimalFormat;
 
 import cashbumper.hackathon.burda.com.cashbumper.BaseActivity;
 import cashbumper.hackathon.burda.com.cashbumper.R;
@@ -25,8 +29,7 @@ public class GiverMoneyFragment extends BaseFragment {
     TextView sum;
 
     int sumInt = 0;
-
-
+    int progressToSend = 100;
 
     @Nullable
     @Override
@@ -34,6 +37,35 @@ public class GiverMoneyFragment extends BaseFragment {
         View v = View.inflate(getActivity(), R.layout.giver_money_layout, null);
         sum = (TextView) v.findViewById(R.id.sum);
         sumInt = Integer.parseInt(((String) sum.getText()).replace(" €", ""));
+        SeekBar bar = (SeekBar) v.findViewById(R.id.seekbar);
+        final TextView rangeIndicator = (TextView) v.findViewById(R.id.rangeIndicator);
+        bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progressToSend = progress * 100 + 100;
+
+                if (progress < 9) {
+                    rangeIndicator.setText(progress * 100 + 100 + " m");
+                } else {
+
+                    DecimalFormat df = new DecimalFormat();
+                    df.setMaximumFractionDigits(1);
+                    double toBeRounded = progress / 10.0 + 0.1;
+                    String display = df.format(toBeRounded);
+                    rangeIndicator.setText(display + " km");
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
         return v;
     }
 
@@ -60,20 +92,28 @@ public class GiverMoneyFragment extends BaseFragment {
 
     public void confirm(View v) {
         // TODO Fake account data but we should have the sum and then get the id of the session
-        // TODO Range
+        Log.d("GiverMoneyFragment", "In confirm");
+        if (sumInt > 0) {
+            ((BaseActivity) getActivity()).executeRequest(RequestFactory.buildGiverSession(new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject object) {
+                    try {
+                        String id = object.getString("requester_id");
+                        String requestId = object.getString("transaction_id");
 
-        ((BaseActivity)getActivity()).executeRequest(RequestFactory.buildGiverSession(new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject object) {
-                try {
-                    String id = object.getString("requester_id");
-                    String requestId = object.getString("transaction_id");
-                    // TODO Submit that to new model classes
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                        // TODO Submit that to new model classes
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        }, sumInt, 0, null));
+            }, sumInt, progressToSend, null));
+
+            //TODO: move that in the success and start a loading process
+            callbacks.startList();
+
+        } else {
+            Toast.makeText(getActivity(), "Please set an amount to exchange", Toast.LENGTH_SHORT);
+        }
 
 
     }
