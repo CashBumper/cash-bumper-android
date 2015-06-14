@@ -68,9 +68,9 @@ public class RequestFactory {
                 listener);
     }
 
-    public static JsonObjectRequest isRequesterTransactionAccepted(Response.Listener<JSONObject> listener, String requesterId) {
+    public static JsonObjectRequest getRequesterTransactionGiver(Response.Listener<JSONObject> listener, String requesterId) {
         return new BaseRequest(Request.Method.GET,
-                serverBaseUrl + "is_requester_transaction_accepted?requester_id=" + requesterId,listener);
+                serverBaseUrl + "get_requester_transaction_giver?requester_id=" + requesterId, listener);
     }
 
     public static JsonObjectRequest bump(Response.Listener<JSONObject> listener, String requesterId) {
