@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Response;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -18,10 +19,17 @@ import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import cashbumper.hackathon.burda.com.cashbumper.Model.EnrichedGiver;
+import cashbumper.hackathon.burda.com.cashbumper.Model.EnrichedRequester;
 import cashbumper.hackathon.burda.com.cashbumper.R;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
@@ -103,6 +111,7 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
         map = googleMap;
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.setMyLocationEnabled(true);
+        launchMarkerRequest(isRequester);
         SmartLocation.with(getActivity()).location()
                 .start(new OnLocationUpdatedListener() {
                     @Override
@@ -112,6 +121,57 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
                         centerMapOnMyLocation();
                     }
                 });
+    }
+
+    private void launchMarkerRequest(final boolean isRequester) {
+        Response.Listener<JSONObject> object = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject object) {
+
+                    try {
+                        if (isRequester) {
+                            JSONArray array = object.getJSONArray("givers");
+                            for (int i = 0; i < array.length(); i++) {
+                                object = array.getJSONObject(i);
+                                String id = object.getString("id");
+                                double latitude = object.getDouble("latitude");
+                                double longitude = object.getDouble("longitude");
+                                int amount = object.getInt("amount");
+                                int range = object.getInt("range");
+                                String sepa = object.getString("sepa");
+                                int distance = object.getInt("distance");
+                                int duration = object.getInt("duration");
+                                EnrichedGiver giver = new EnrichedGiver(id, latitude, longitude, amount, range, sepa, distance, duration);
+                                Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bubble);
+                                Bitmap b2 = Bitmap.createScaledBitmap(b, b.getWidth() / 4, b.getHeight() / 4, false);
+                                map.addGroundOverlay(new GroundOverlayOptions().image(BitmapDescriptorFactory.fromBitmap(b2)).position(new LatLng(latitude, longitude), 300f, 300f));
+                            }
+                        }else {
+                            JSONArray array = object.getJSONArray("requesters");
+                            for (int i = 0; i < array.length(); i++) {
+                                object = array.getJSONObject(i);
+                                String id = object.getString("id");
+                                double latitude = object.getDouble("latitude");
+                                double longitude = object.getDouble("longitude");
+                                int amount = object.getInt("amount");
+                                int range = object.getInt("range");
+                                String transactionId = object.getString("transactionId");
+                                String cardNumber = object.getString("cardNumber");
+                                String expiryMonth = object.getString("expiryMonth");
+                                String expiryYear= object.getString("expiryYear");
+                                String cvc = object.getString("cvc");
+                                int distance = object.getInt("distance");
+                                int duration = object.getInt("duration");
+                                EnrichedRequester requester = new EnrichedRequester(id, latitude, longitude, amount, range, transactionId, cardNumber, expiryMonth, expiryYear, cvc, distance, duration);
+                                map.addMarker(new MarkerOptions().title(amount+" euros").position(new LatLng(latitude, longitude)).snippet(duration/60+" min\n"+distance + " m"));
+                            }
+                        }
+
+                    } catch (Exception e) {
+
+                }
+            }
+        };
     }
 
     private ArrayList<GroundOverlay> generateRandomsPoints() {
