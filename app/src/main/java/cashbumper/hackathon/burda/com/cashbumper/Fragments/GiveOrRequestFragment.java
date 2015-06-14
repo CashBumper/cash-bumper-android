@@ -12,7 +12,7 @@ import cashbumper.hackathon.burda.com.cashbumper.R;
 /**
  * Created by laurentmeyer on 13/06/15.
  */
-public class GiveOrRequestFragment extends Fragment {
+public class GiveOrRequestFragment extends BaseFragment {
 
     @Nullable
     @Override

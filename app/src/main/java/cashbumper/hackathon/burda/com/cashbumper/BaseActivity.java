@@ -32,7 +32,7 @@ public class BaseActivity extends FragmentActivity {
         RequestManager.cancelAll(this);
     }
 
-    protected void executeRequest(Request<?> request) {
+    public void executeRequest(Request<?> request) {
         Log.d("BaseActivity", "Request sent");
         RequestManager.addRequest(request, this);
     }
