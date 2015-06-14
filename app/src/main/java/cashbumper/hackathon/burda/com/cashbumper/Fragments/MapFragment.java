@@ -19,12 +19,14 @@ import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import cashbumper.hackathon.burda.com.cashbumper.BaseActivity;
@@ -45,6 +47,11 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
     GoogleMap map;
     Location current;
     boolean isRequester;
+
+    /**
+     * Not to use any extended API
+     */
+    HashMap<String, String> markerMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,6 +95,14 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(current.getLatitude(), current.getLongitude()), 13));
 
+            map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    String uuid = markerMap.get(marker.getTitle());
+                    acceptRequest();
+                }
+            });
+
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(current.getLatitude(), current.getLongitude()))      // Sets the center of the map to location user
                     .zoom(15)                   // Sets the zoom
@@ -105,6 +120,9 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
             });
 
         }
+    }
+
+    private void acceptRequest() {
     }
 
     @Override
@@ -131,47 +149,50 @@ public class MapFragment extends BaseFragment implements com.google.android.gms.
             @Override
             public void onResponse(JSONObject object) {
 
-                    try {
-                        if (isRequester) {
-                            JSONArray array = object.getJSONArray("givers");
-                            for (int i = 0; i < array.length(); i++) {
-                                object = array.getJSONObject(i);
-                                String id = object.getString("id");
-                                double latitude = object.getDouble("latitude");
-                                double longitude = object.getDouble("longitude");
-                                int amount = object.getInt("amount");
-                                int range = object.getInt("range");
-                                String sepa = object.getString("sepa");
-                                int distance = object.getInt("distance");
-                                int duration = object.getInt("duration");
-                                EnrichedGiver giver = new EnrichedGiver(id, latitude, longitude, amount, range, sepa, distance, duration);
-                                Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bubble);
-                                Bitmap b2 = Bitmap.createScaledBitmap(b, b.getWidth() / 4, b.getHeight() / 4, false);
-                                map.addGroundOverlay(new GroundOverlayOptions().image(BitmapDescriptorFactory.fromBitmap(b2)).position(new LatLng(latitude, longitude), 300f, 300f));
-                            }
-                        }else {
-                            JSONArray array = object.getJSONArray("requesters");
-                            for (int i = 0; i < array.length(); i++) {
-                                object = array.getJSONObject(i);
-                                String id = object.getString("id");
-                                double latitude = object.getDouble("latitude");
-                                double longitude = object.getDouble("longitude");
-                                int amount = object.getInt("amount");
-                                int range = object.getInt("range");
-                                String transactionId = object.getString("transactionId");
-                                String cardNumber = object.getString("cardNumber");
-                                String expiryMonth = object.getString("expiryMonth");
-                                String expiryYear= object.getString("expiryYear");
-                                String cvc = object.getString("cvc");
-                                int distance = object.getInt("distance");
-                                int duration = object.getInt("duration");
-                                EnrichedRequester requester = new EnrichedRequester(id, latitude, longitude, amount, range, transactionId, cardNumber, expiryMonth, expiryYear, cvc, distance, duration);
-                                map.addMarker(new MarkerOptions().title(amount+" euros").position(new LatLng(latitude, longitude)).snippet(duration/60+" min\n"+distance + " m"));
-                            }
+                Log.d("MapFragment", "object:" + object);
+
+                try {
+                    if (isRequester) {
+                        JSONArray array = object.getJSONArray("givers");
+                        for (int i = 0; i < array.length(); i++) {
+                            object = array.getJSONObject(i);
+                            String id = object.getString("id");
+                            double latitude = object.getDouble("latitude");
+                            double longitude = object.getDouble("longitude");
+                            int amount = object.getInt("amount");
+                            int range = object.getInt("range");
+                            String sepa = object.getString("sepa");
+                            int distance = object.getInt("distance");
+                            int duration = object.getInt("duration");
+                            EnrichedGiver giver = new EnrichedGiver(id, latitude, longitude, amount, range, sepa, distance, duration);
+                            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bubble);
+                            Bitmap b2 = Bitmap.createScaledBitmap(b, b.getWidth() / 4, b.getHeight() / 4, false);
+                            map.addGroundOverlay(new GroundOverlayOptions().image(BitmapDescriptorFactory.fromBitmap(b2)).position(new LatLng(latitude, longitude), 300f, 300f));
                         }
+                    } else {
+                        JSONArray array = object.getJSONArray("requesters");
+                        for (int i = 0; i < array.length(); i++) {
+                            object = array.getJSONObject(i);
+                            String id = object.getString("id");
+                            double latitude = object.getDouble("latitude");
+                            double longitude = object.getDouble("longitude");
+                            int amount = object.getInt("amount");
+                            int range = object.getInt("range");
+                            String transactionId = object.getString("transaction_id");
+                            String cardNumber = object.getString("card_number");
+                            String expiryMonth = object.getString("expiry_month");
+                            String expiryYear = object.getString("expiry_year");
+                            String cvc = object.getString("cvc");
+                            int distance = object.getInt("distance");
+                            int duration = object.getInt("duration");
+                            EnrichedRequester requester = new EnrichedRequester(id, latitude, longitude, amount, range, transactionId, cardNumber, expiryMonth, expiryYear, cvc, distance, duration);
+                            map.addMarker(new MarkerOptions().title(amount + " euros").position(new LatLng(latitude, longitude)).snippet(duration / 60 + " min\n" + distance + " m"));
+                            markerMap.put(amount + " euros", id);
+                        }
+                    }
 
-                    } catch (Exception e) {
-
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
             }
         };

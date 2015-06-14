@@ -1,5 +1,6 @@
 package cashbumper.hackathon.burda.com.cashbumper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -66,7 +67,8 @@ public class MainActivity extends BaseActivity implements FragmentCallbacks{
 
     @Override
     public void startBump() {
-
+        Intent i = new Intent(this, ContainerActivity.class);
+        startActivity(i);
     }
 
 }
