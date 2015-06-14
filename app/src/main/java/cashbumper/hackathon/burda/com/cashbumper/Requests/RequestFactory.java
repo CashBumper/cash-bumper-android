@@ -10,9 +10,7 @@ import org.json.JSONObject;
 
 import cashbumper.hackathon.burda.com.cashbumper.Listeners.ErrorListener;
 
-/**
- * Created by laurentmeyer on 13/06/15.
- */
+import java.lang.String;
 
 public class RequestFactory {
 
@@ -23,45 +21,61 @@ public class RequestFactory {
     }
 
 
-    public static JsonObjectRequest buildRequesterSession(Response.Listener<JSONObject> listener, String account, int amount){
-        return new BaseRequest(Request.Method.POST, serverBaseUrl + "create_requester_session?"+"amount="+amount+"&account="+account, listener);
+    public static JsonObjectRequest createRequesterSession(Response.Listener<JSONObject> listener,
+            String cardNumber, String expiryMonth, String expiryYear, String cvc, int amount, int range){
+        return new BaseRequest(Request.Method.POST,
+                serverBaseUrl + "create_requester_session?" +
+                        "card_number="  + cardNumber  + "&" +
+                        "expiry_month=" + expiryMonth + "&" +
+                        "expiry_year="  + expiryYear  + "&" +
+                        "cvc="          + cvc         + "&" +
+                        "amount="       + amount      + "&" +
+                        "range="        + range,
+                listener);
     }
 
-    public static JsonObjectRequest buildFindGiversRequest(Response.Listener<JSONObject> listener, double lat, double lng, int range, String id){
-        return new BaseRequest(Request.Method.GET, serverBaseUrl +"find_givers_around?lat="+lat+"&lng="+lng+"&range="+range+"&id="+id, listener);
+    public static JsonObjectRequest createGiverSession(Response.Listener<JSONObject> listener,
+            int amount, int range, String sepa) {
+        return new BaseRequest(Request.Method.POST,
+                serverBaseUrl + "create_giver_session?" +
+                        "amount=" + amount + "&" +
+                        "range="  + range  + "&" +
+                        "sepa="   + sepa,
+                listener);
     }
 
-    public static JsonObjectRequest buildRequesterBumpRequest(Response.Listener<JSONObject> listener, String idMe, String idTransaction){
-        return new BaseRequest(Request.Method.POST, serverBaseUrl+"requester_bump?id="+idMe+"&token="+idTransaction, listener);
+    public static JsonObjectRequest findGiversAround(Response.Listener<JSONObject> listener,
+            double lat, double lng, String requesterId) {
+        return new BaseRequest(Request.Method.GET,
+                serverBaseUrl + "find_givers_around?" +
+                        "lat="          + lat         + "&" +
+                        "lng="          + lng         + "&" +
+                        "requester_id=" + requesterId,
+                         listener);
     }
 
-    public static JsonObjectRequest buildGiverBumpRequest(Response.Listener<JSONObject> listener, String idMe, String idTransaction){
-        return new BaseRequest(Request.Method.POST, serverBaseUrl+"giver_bump?id="+idMe+"&token="+idTransaction, listener);
+    public static JsonObjectRequest findRequestersAround(Response.Listener<JSONObject> listener,
+            double lat, double lng, String giverId) {
+        return new BaseRequest(Request.Method.GET,
+                serverBaseUrl + "find_requesters_around?" +
+                        "lat="     + lat    + "&" +
+                        "lng="     + lng    + "&" +
+                        "giverId=" + giverId,
+                listener);
     }
 
-    public static JsonObjectRequest buildGiverSession(Response.Listener<JSONObject> listener, int maxAmount, int maxRange, String sepa){
-        return new BaseRequest(Request.Method.POST, serverBaseUrl+"create_giver_session?maxAmount="+maxAmount+"&maxRange="+maxRange+"&sepa="+sepa, listener);
+    public static JsonObjectRequest acceptRequest(Response.Listener<JSONObject> listener,
+            String requesterId, String giverId) {
+        return new BaseRequest(Request.Method.GET,
+                serverBaseUrl + "accept_request?" +
+                        "requester_id=" + requesterId + "&" +
+                        "giverId="      + giverId,
+                listener);
     }
 
-    public static JsonObjectRequest buildFindRequesterRequest(Response.Listener<JSONObject> listener, double lat, double lng, String id){
-        return new BaseRequest(Request.Method.GET, serverBaseUrl+"find_requesters_around?lat="+lat+"&lng="+lng+"&id="+id, listener);
-    }
-
-    public static JsonObjectRequest buildRequestStatusSetterRequest(Response.Listener<JSONObject> listener, STATES s, String id, String request){
-        return new BaseRequest(Request.Method.POST, serverBaseUrl+buildUrlFromState(s)+"?id="+id+"&request_id="+request, listener);
-    }
-
-    private static String buildUrlFromState(STATES s){
-        switch (s){
-            case SEEN:
-                return "saw_request";
-            case ACCEPTED:
-                return "accept_request";
-            case REJECTED:
-                return "decline_request";
-            default:
-                return null;
-        }
+    public static JsonObjectRequest bump(Response.Listener<JSONObject> listener, String requesterId) {
+        return new BaseRequest(Request.Method.GET,
+                serverBaseUrl + "bump?requester_id=" + requesterId,listener);
     }
 
 
